@@ -22,7 +22,6 @@ urlpatterns = [
     path('inicio/', inicio),
     path('puntos/', puntos),
     path('puntos/asignarpuntos/', asignarPuntos),
-    #path('bonificaciones/', bonificaciones),
     path('bonificaciones/<name>', bonificaciones),
     path('redimir/<name>/<int:puntosbono>', redimir),
     
