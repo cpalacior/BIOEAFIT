@@ -12,7 +12,7 @@ def inicio(request):
     usuarios = Usuario.objects.all()
     nombreusuario = usuarios.values("nombre")
     nombreusuario = nombreusuario[0]
-    return render(request, 'puntos.html', {"name": nombreusuario["nombre"]})
+    return render(request, 'inicio.html', {"name": nombreusuario["nombre"]})
 
 #Llamar intercambio con el usuario de prueba y su cantidad de puntos
 def puntos(request):
@@ -41,8 +41,10 @@ def asignarPuntos(request):
     id_objetos_puntos = list_objetos_puntos['id']
     cantidad_objetos_puntos = list_objetos_puntos['cantidad']
     print("id de los pntos: ",id_objetos_puntos, "-------------------- cantidad de los pntos: ",cantidad_objetos_puntos)
-    p_u= Puntos_Usuarios(id=id_objetos_puntos, cantidad=cantidad_objetos_puntos+puntos, identificacion_id=listusuario)
-    p_u.save()
+    p_u=Puntos_Usuarios.objects.filter(identificacion_id=listusuario)
+    suma=cantidad_objetos_puntos+puntos
+    #p_u= Puntos_Usuarios(id=id_objetos_puntos, cantidad=cantidad_objetos_puntos+puntos, identificacion_id=listusuario)
+    p_u.update(cantidad=suma)
     return redirect('/puntos/')
 
 
@@ -69,18 +71,19 @@ def bonificaciones(request, name):
     return render(request, 'bonificaciones.html', {"name": name, "cantidad":cantidadp, "hood":bono1, "parqueo": bono2, "gym":bono3, "bigos":bono4})
 
 #Hacer la validación del puntaje con la bonificacion a redimir
-def redimir(request, name):
-    usuario=Usuario.objects.filter(nombre=request.POST['nombre'])
+def redimir(request, name, puntosbono):
+    usuario=Usuario.objects.filter(nombre=name)
     listusuario = usuario.values()
     listusuario = listusuario[0]
     listusuario = listusuario['identificacion']
     objeto_puntos = Puntos_Usuarios.objects.filter(identificacion_id=listusuario).values()
     list_objetos_puntos = objeto_puntos[0]
-    id_objetos_puntos = list_objetos_puntos['id']
     cantidad_objetos_puntos = list_objetos_puntos['cantidad']
-    bonificacion=Bonificacion.objects.all().values()
-    print(bonificacion)
-    #if cantidad_objetos_puntos < valor_bonificacion:
-        
-    return redirect('/bonificaciones/')
+    if(cantidad_objetos_puntos < puntosbono):
+        return redirect('/bonificaciones/%s' %(name))
+    else:
+        o_p = Puntos_Usuarios.objects.filter(identificacion_id=listusuario)
+        diferencia = cantidad_objetos_puntos - puntosbono
+        o_p.update(cantidad=diferencia)
+    return redirect('/bonificaciones/%s' %(name))
 

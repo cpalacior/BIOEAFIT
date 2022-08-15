@@ -178,8 +178,11 @@
                 <div class="card-body">
                   <h5 class="card-title">{{hood.nombre}}</h5>
                   <p class="card-text">Podrás disfrutar de un exquisito menú del día en el restaurante HOOD.</p>
-
-                  <a href="#openModal" class="btn btn-primary">{{hood.valor}} Puntos</a>
+                  <form action="/redimir/{{name}}/{{hood.valor}}" method="POST">
+                    {% csrf_token %}
+                    <button id="submit" class="btn btn-primary">{{hood.valor}} Puntos</button>
+                  </form>
+                  <!--<a href="#openModal" class="btn btn-primary">{{hood.valor}} Puntos</a>-->
                 </div>
               </div>
             </div>
@@ -189,7 +192,11 @@
                 <div class="card-body">
                   <h5 class="card-title">{{parqueo.nombre}}</h5>
                   <p class="card-text">Podrás tener parqueadero gratis por un día, para cualquier tipo de vehiculo.</p>
-                  <a href="#" class="btn btn-primary">{{parqueo.valor}} Puntos</a>
+                  <form action="/redimir/{{name}}/{{parqueo.valor}}" method="POST">
+                    {% csrf_token %}
+                    <button id="submit" class="btn btn-primary">{{parqueo.valor}} Puntos</button>
+                  </form>
+                  <!--<a href="#" class="btn btn-primary">{{parqueo.valor}} Puntos</a>-->
                 </div>
               </div>
             </div>
@@ -207,7 +214,11 @@
                 <div class="card-body">
                   <h5 class="card-title">{{gym.nombre}}</h5>
                   <p class="card-text">Podrás ponerte en forma en el excelente gimnasio de la universidad.</p>
-                  <a href="#" class="btn btn-primary">{{gym.valor}} Puntos</a>
+                  <form action="/redimir/{{name}}/{{gym.valor}}" method="POST">
+                    {% csrf_token %}
+                    <button id="submit" class="btn btn-primary">{{gym.valor}} Puntos</button>
+                  </form>
+                  <!--<a href="#" class="btn btn-primary">{{gym.valor}} Puntos</a>-->
                 </div>
               </div>
             </div>
@@ -217,7 +228,11 @@
                 <div class="card-body">
                   <h5 class="card-title">{{bigos.nombre}}</h5>
                   <p class="card-text">Podrás comer un desayuno deliciosisimo, ofrecido por uno de los mejores restaurantes.</p>
-                  <a href="#" class="btn btn-primary">{{bigos.valor}} Puntos</a>
+                  <form action="/redimir/{{name}}/{{bigos.valor}}" method="POST">
+                    {% csrf_token %}
+                    <button id="submit" class="btn btn-primary">{{bigos.valor}} Puntos</button>
+                  </form>
+                  <!--<a href="#" class="btn btn-primary">{{bigos.valor}} Puntos</a>-->
                 </div>
               </div>
             </div>
