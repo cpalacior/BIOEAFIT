@@ -4,9 +4,6 @@ from xml.dom.minidom import Document
 from django.shortcuts import render, redirect
 from .models import Usuario, Puntos_Usuarios, Bonificacion
 
-def nombre():
-    pass
-
 # Llamar inicio
 def inicio(request):
     usuarios = Usuario.objects.all()
@@ -38,24 +35,17 @@ def asignarPuntos(request):
     print("puntaje:" ,puntos)
     objeto_puntos = Puntos_Usuarios.objects.filter(identificacion_id=listusuario).values()
     list_objetos_puntos = objeto_puntos[0]
-    id_objetos_puntos = list_objetos_puntos['id']
     cantidad_objetos_puntos = list_objetos_puntos['cantidad']
-    print("id de los pntos: ",id_objetos_puntos, "-------------------- cantidad de los pntos: ",cantidad_objetos_puntos)
     p_u=Puntos_Usuarios.objects.filter(identificacion_id=listusuario)
     suma=cantidad_objetos_puntos+puntos
-    #p_u= Puntos_Usuarios(id=id_objetos_puntos, cantidad=cantidad_objetos_puntos+puntos, identificacion_id=listusuario)
     p_u.update(cantidad=suma)
     return redirect('/puntos/')
 
 
-def bonificaciones(request):
-    return render(request, 'bonificaciones.html')
-
 #Llamar las bonificaciones con el nombre del usuario de prueba 
 def bonificaciones(request, name):
-    puntos = Puntos_Usuarios.objects.all()
-    cantidadp = puntos.values("cantidad")
-    cantidadp= cantidadp[0]['cantidad']
+    puntos = Puntos_Usuarios.objects.all().values()
+    cantidadp= puntos[0]['cantidad']
     print(cantidadp)
     
     print(name)
@@ -86,4 +76,3 @@ def redimir(request, name, puntosbono):
         diferencia = cantidad_objetos_puntos - puntosbono
         o_p.update(cantidad=diferencia)
     return redirect('/bonificaciones/%s' %(name))
-

@@ -60,10 +60,6 @@
         margin-left: 1rem;
       }
 
-a.open:hover {
-  background:#111;
-  transition:all ease-in 0.3s;
-}
 .modalDialog {
   -webkit-transition: opacity 400ms ease-in;
   -moz-transition: opacity 400ms ease-in;
@@ -139,6 +135,7 @@ a.open:hover {
             <a class="nav-link fw-bold py-1 px-0" aria-current="page" href="/inicio/">Inicio</a>
             <a class="nav-link fw-bold py-1 px-0" href="/puntos/">Intercambio</a>
             <a class="nav-link fw-bold py-1 px-0" href="/bonificaciones/{{name}}">Bonificaciones</a>
+            <a class="nav-link fw-bold py-1 px-0" href="#openModal" title="Abrir Ventana" class="open">Ver Puntos</a>
           </nav>
         </div>
       </header>
@@ -173,7 +170,7 @@ a.open:hover {
           <div class="form-group">
               <label class="form-label mt-4">Calidad:</label>
               <select id="select" name="calidad"class="form-select" autofocus>
-                <option value="1">1</option>
+                <option>1</option>
                 <option>2</option>
                 <option>3</option>
                 <option>4</option>
@@ -182,24 +179,21 @@ a.open:hover {
                 <option>7</option>
               </select>
             </div>
-          
           <br>
           <button id="submit" class="btn btn-primary">Enviar</button>
-          <a type="button" class="btn btn-primary" href="#openModal" title="Abrir Ventana" class="open">Ver puntos</a>
+          </form>
 <!--if es una idea de paulina
 on click es una idea de camilo-->
-
 
       <section id="openModal" class="modalDialog">
         <section>
           <a href="#close" title="Cerrar" class="close"> X </a>
           <h3>¡Genial!</h3>
           <p>
-            Tienes:<br/> {{cantidad}} Puntos 
+            Tienes: {{cantidad}} Puntos 
           </p>
         </section>
       </section>
-        
 
       </main>
       <br><br>
