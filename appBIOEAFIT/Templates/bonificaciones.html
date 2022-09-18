@@ -148,6 +148,7 @@
             <a class="nav-link fw-bold py-1 px-0" aria-current="page" href="/inicio/">Inicio</a>
             <a class="nav-link fw-bold py-1 px-0" href="/puntos/">Intercambio</a>
             <a class="nav-link fw-bold py-1 px-0" href="/bonificaciones/{{name}}">Bonificaciones</a>
+            <a class="nav-link fw-bold py-1 px-0" href="/informacion/">Información</a>
             <a class="nav-link fw-bold py-1 px-0" href="#openModal" title="Abrir Ventana" class="open">{{name}}</a>
 
             <section id="openModal" class="modalDialog">
@@ -172,7 +173,7 @@
 
         <div class="row">
           {%for bonificacion in bono%}
-              <div class="col-sm-6">
+              <div class="col-6">
                 <div class="card" style="width: 18rem;">
                   <img src="{{bonificacion.imagen}}" class="card-img-top" height="155px">
                   <div class="card-body">
@@ -182,12 +183,12 @@
                       {% csrf_token %}
                       <button id="submit" class="btn btn-primary">{{bonificacion.valor}} Puntos</button>
                     </form>
-                    <!--<a href="#openModal" class="btn btn-primary">{{hood.valor}} Puntos</a>-->
                   </div>
                 </div>
-          {% endfor %}
-      </div>
-
+                <br><br>
+            </div>            
+          {% endfor %}          
+        </div>
 
         <section id="openModal" class="modalDialog">
           <section>

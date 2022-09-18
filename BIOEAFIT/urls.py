@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from appBIOEAFIT.views import inicio, puntos, bonificaciones, asignarPuntos, redimir, puntos1
+from appBIOEAFIT.views import inicio, puntos, bonificaciones, asignarPuntos, redimir, puntos1, informacion
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,5 +25,5 @@ urlpatterns = [
     path('bonificaciones/<name>', bonificaciones),
     path('redimir/<name>/<int:puntosbono>', redimir),
     path('puntos1/', puntos1),
-    
+    path('informacion/', informacion), 
 ]

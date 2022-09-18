@@ -142,3 +142,9 @@ def leer_datos (list_in_floats):
         list_in_floats.append(float(item))
     arduino_data = 0
     arduino.close()
+    
+def informacion(request):
+    usuarios = Usuario.objects.all()
+    nombreusuario = usuarios.values("nombre")
+    nombreusuario = nombreusuario[0]
+    return render(request, 'informacion.html', {"name": nombreusuario["nombre"]})
