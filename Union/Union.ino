@@ -1,8 +1,22 @@
 #include <Keypad.h>
-float peso; //Numero Random
+#include <HX711_ADC.h>
+
+//CONSTANTES
+#define DOUT A1
+#define CLK A0
+
+//VARIABLES
+float const ftrCal_ = 231.8885;
+float peso = 0;
+int i = 0;
+HX711_ADC balanza(DOUT, CLK); //HX711 constructor (dout pin, sck pin)
+long t;
+long t_espera = 1000; //Nota 0: coloquemos este tiempo de espera para que se tomen datos cada 1 segundo (500 milesegundos)
+long t_actual;
 
 const int EchoPin = 48;
 const int TriggerPin = 50;
+
 const int ROW_NUM = 4; //four rows
 const int COLUMN_NUM = 3; //three columns
 int cm = 0;
@@ -25,16 +39,21 @@ String input_password1;
 
 void setup(){
   Serial.begin(9600);
-  input_password.reserve(32); // maximum input characters is 33, change if needed
+  pinMode(LED_BUILTIN, OUTPUT);
+  balanza.begin();
+  balanza.start(2000); // la preciscion de la tara puede mejorar al añadir un par de segundos
+  balanza.setCalFactor(ftrCal_);
+  //Serial.println("Configuración completada...");
+  t_actual = millis();
+   
   pinMode(TriggerPin, OUTPUT);
-   pinMode(EchoPin, INPUT);
+  pinMode(EchoPin, INPUT);
 
-  randomSeed(analogRead(0)); // numeros random para los pesos
   pinMode(0, INPUT);
 }
 
 void loop(){
-  //Serial.println("Ingrese teclas");
+  //Esto es para la identificación
    while(true){
     char key = keypad.getKey();
 
@@ -50,14 +69,36 @@ void loop(){
     }
   }
  }
- //Serial.println("Acá estamos con sensor");
+
+ 
+ //Esto es para el ultraSonido
  for(int i = 0; i < 1; i++){
    cm = ping(TriggerPin, EchoPin);
    //Serial.print("Distancia: ");
    //Serial.println(cm);
    delay(100);
   }
-  peso = random(9, 46);
+
+  
+  //Esto es para el peso
+  while(true){
+    balanza.update();
+    if (millis() > t_actual + t_espera){
+      i++;
+      peso = balanza.getData();
+      String dato_sensor = String(peso);
+      //Serial.print("Peso:");
+      //Serial.println(peso_);
+      t_actual = millis();
+      if( i == 7){
+        //Serial.println(String(dato_sensor) + "|" + String(i));
+        break;
+        }
+    }
+    }
+
+    
+   //Esto es para la calidad
   while(true){
     char key = keypad.getKey();
 
@@ -74,6 +115,7 @@ void loop(){
   }
  }
   Serial.println(String(input_password) + "|" + String(cm) + "|" + String(peso) + "|" + String(input_password1));
+  
 }
 
 int ping(int TriggerPin, int EchoPin) {

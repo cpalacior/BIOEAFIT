@@ -30,7 +30,7 @@ def puntos(request):
 def asignarPuntos(request):
     formulario = request.POST.dict()
     print(formulario)
-    puntos = (float(request.POST['peso'])+float(request.POST['tamanio']))/(20+float(request.POST['calidad']))
+    puntos = (float(request.POST['peso'])+float(request.POST['tamanio']))/(20+float(request.POST['calidad'])) * 10
     puntos = round(puntos)
     usuario=Usuario.objects.filter(nombre=request.POST['nombre'])
     listusuario = usuario.values()
@@ -110,7 +110,7 @@ def puntos1(request):
                 cantidadp = puntos.values("cantidad")
                 cantidadp= cantidadp[0]
 
-                tamanio = 30- list_in_floats[1]
+                tamanio = 30 - list_in_floats[1]
                 return render(request, 'puntos.html', {"name": nombreusuario["nombre"], "cantidad": cantidadp["cantidad"], "tamanio": tamanio, "peso": list_in_floats[2], "calidad": list_in_floats[3]})
             except:
                 print("No existe este usuario")
@@ -135,6 +135,8 @@ def verificarUsuario(list_in_floats):
 def leer_datos (list_in_floats):
     list_values = []
     arduino = serial.Serial(puerto, 9600)
+    time.sleep(5)
+    print("Ponle el peso")
     arduino_data = arduino.readline()
     decoded_values = str(arduino_data[0:len(arduino_data)].decode("utf-8"))
     list_values = decoded_values.split('|')
