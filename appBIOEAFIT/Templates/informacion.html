@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 
@@ -144,10 +145,16 @@
       <div>
         <h3 class="float-md-start">BIOEAFIT</h3>
         <nav class="nav nav-masthead justify-content-center float-md-end">
-          <a class="nav-link fw-bold py-1 px-0" aria-current="page" href="/inicio/">Inicio</a>
-          <a class="nav-link fw-bold py-1 px-0" href="/puntos/">Intercambio</a>
+          {% if name %}
+          <a class="nav-link fw-bold py-1 px-0" aria-current="page" href="/inicioUser/{{name}}">Inicio</a>
           <a class="nav-link fw-bold py-1 px-0" href="/bonificaciones/{{name}}">Bonificaciones</a>
+          <a class="nav-link fw-bold py-1 px-0" href="/informacion1/{{name}}">Información</a>
+          {% else %}
+          <a class="nav-link fw-bold py-1 px-0" aria-current="page" href="/">Inicio</a>
           <a class="nav-link fw-bold py-1 px-0" href="/informacion/">Información</a>
+          <a class="nav-link fw-bold py-1 px-0" href="/signin/">Ingresar</a>
+          {% endif %}
+
         </nav>
       </div>
     </header>
@@ -177,118 +184,14 @@
       </div>
 
       <br>
-      <h4>¿Cómo medimos la calidad de tus botellas plásticas?</h4>
-
-      <div class="row">
-        <div class="col-sm-4">
-          <div class="card" style="width: 16rem;">
-            <div class="card-body">
-              <h5 class="card-title">PET o PETE</h5>
-              <h6 class="card-subtitle mb-2 text-muted">Tereftalato de polietileno</h6>
-              <p class="card-text">Número 1 en nuestra categorización. Es el plástico más común, por ende es el más
-                facíl de reciclar.
-                Lo encontrarás en botellas de agua, gaseosa, jugos, entre otros.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-4">
-          <div class="card" style="width: 16rem;">
-            <div class="card-body">
-              <h5 class="card-title">HDPE</h5>
-              <h6 class="card-subtitle mb-2 text-muted">Polietileno de alta densidad</h6>
-              <p class="card-text">Número 2 en nuestra categorización. Es de los plásticos más resistentes debido a su
-                alta densidad.
-                Lo encontrarás en productos de belleza, limpieza como shampoo, entre otros.</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-4">
-          <div class="card" style="width: 16rem;">
-            <div class="card-body">
-              <h5 class="card-title">PVC</h5>
-              <h6 class="card-subtitle mb-2 text-muted">Policloruro de vinilo</h6>
-              <p class="card-text">Número 3 en nuestra categorización. Aunque es un plástico que puede ser peligroso, es
-                100% reciclable.
-                Lo encontrarás en botellas de detergente, botellas de lujo, entre otros.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <br>
-
-      <div class="row">
-        <div class="col-sm-4">
-          <div class="card" style="width: 16rem;">
-            <div class="card-body">
-              <h5 class="card-title">LDPE o PEBD</h5>
-              <h6 class="card-subtitle mb-2 text-muted">Polietileno de baja densidad</h6>
-              <p class="card-text">Número 4 en nuestra categorización. Es la forma de polietileno más elástica.
-                Lo encontrarás en botellas plásticas blandas, con papel film, entre otros.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-4">
-          <div class="card" style="width: 16rem;">
-            <div class="card-body">
-              <h5 class="card-title">PP</h5>
-              <h6 class="card-subtitle mb-2 text-muted">Polipropileno</h6>
-              <p class="card-text">Número 5 en nuestra categorización. Es un material que aguanta bien la presión.
-                Lo encontrarás en botellas de productos muy bien sellados, hermeticos, entre otros.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-4">
-          <div class="card" style="width: 16rem;">
-            <div class="card-body">
-              <h5 class="card-title">PS</h5>
-              <h6 class="card-subtitle mb-2 text-muted">Poliestireno</h6>
-              <p class="card-text">Número 6 en nuestra categorización. Es un material muy aislante.
-                Lo encontrarás en botellas de productos que debes manejar con cuidado,pueden ser peligrosos.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <br>
-      <center>
-        <div class="row">
-          <div class="col-sm-12">
-            <div class="card" style="width: 16rem;">
-              <div class="card-body">
-                <h5 class="card-title">Otros</h5>
-                <h6 class="card-subtitle mb-2 text-muted">Materiales de complejo reciclaje</h6>
-                <p class="card-text">Número 7 en nuestra categorización. Son otros tipo de plásticos distintos o mezclas
-                  de varias resinas.
-                  Se pueden reutilizar, pero no siempre reciclar.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </center>
+      <img src="{% static 'img/calidad.png' %}" width="880px">
 
       <br><br>
-      <div class="row">
-        <div class="col-sm-12">
-          <h4>Instructivo para depositar tus botellas plásticas</h4>
-          <ul class="texto">
-            <li>Deberás ubicar la botella plástica en el soporte de madera, de forma horizontal.</li>
-            <li>Pon la base de la botella plástica a ras del borde de la tabla que contiene el soporte.</li>
-            <li>Ingresa tu número de documento en el teclado, recuerda que este debe estar 
-            registrado previamente en el aplicativo web.</li>
-            <li>Seguido de esto deberas digitar la calidad de la botella de acuerdo a nuestros lineamientos.</li>
-            <li>Retira tus manos con cuidado, y espera que el sistema calcule tu puntaje.</li>
-            <li>Revisa la pantalla led para conocer el puntaje que obtuviste.</li>
-            <li>Ahora podrás acceder a nuestra sección de 'Bonificaciones' para que inicies el proceso de redención.</li>
-          </ul>
-        </div>
-      </div>
+      <img src="{% static 'img/Instructivo.png' %}">
 
-  
 
-      
+
+
 
     </main>
     <br><br>

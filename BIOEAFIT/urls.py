@@ -15,15 +15,30 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from appBIOEAFIT.views import inicio, puntos, bonificaciones, asignarPuntos, redimir, puntos1, informacion
+from appBIOEAFIT.views import adminBonos, administrador, eliminarBonos, eliminarStudent, inicio, inicio1, inicioUser, bonificaciones, redimir, puntos1, informacion, signin, registro, signout, editar, registroadministrador, informacion1
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('inicio/', inicio),
-    path('puntos/', puntos),
-    path('puntos/asignarpuntos/', asignarPuntos),
+    path('', inicio),
+    path('inicio1/<mensaje>/<int:puntos>', inicio1),
     path('bonificaciones/<name>', bonificaciones),
     path('redimir/<name>/<int:puntosbono>', redimir),
     path('puntos1/', puntos1),
-    path('informacion/', informacion), 
+    path('informacion/', informacion),
+    path('informacion1/<name>', informacion1),
+    path('signin/', signin),
+    path('registro/', registro),
+    path('administrador/', administrador),
+    path('eliminarStudent/<name>', eliminarStudent),
+    path('adminBonos/', adminBonos),
+    path('eliminarBonos/<name>', eliminarBonos),
+    path('signout/', signout),
+    path('inicioUser/<name>', inicioUser),
+    path('editar/', editar),
+    path('registroadministrador/', registroadministrador)
+
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

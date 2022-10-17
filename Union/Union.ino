@@ -90,8 +90,7 @@ void loop(){
       //Serial.print("Peso:");
       //Serial.println(peso_);
       t_actual = millis();
-      if( i == 7){
-        //Serial.println(String(dato_sensor) + "|" + String(i));
+      if( i == 3){
         break;
         }
     }
@@ -113,7 +112,7 @@ void loop(){
       input_password1 += key; // append new character to input password string
     }
   }
-  }
+ }
   Serial.println(String(input_password) + "|" + String(cm) + "|" + String(peso) + "|" + String(input_password1));
   
 }
