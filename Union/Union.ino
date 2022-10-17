@@ -113,7 +113,7 @@ void loop(){
       input_password1 += key; // append new character to input password string
     }
   }
- }
+  }
   Serial.println(String(input_password) + "|" + String(cm) + "|" + String(peso) + "|" + String(input_password1));
   
 }
