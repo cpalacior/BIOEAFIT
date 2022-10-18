@@ -160,6 +160,14 @@ def editar(request):
     usuario.update(identificacion = formulario["identificacion"], nombre = formulario["nombre"], correo = formulario["correo"], clave = formulario["clave"], direccion = formulario["direccion"], edad = formulario["edad"], telefono = formulario["telefono"])
     return redirect("/administrador/")
 
+def editarBonos(request):
+    formulario = request.POST.dict()
+    print("editando")
+    print(formulario)
+    bonificacion = Bonificacion.objects.filter(nombre = formulario["nombre"])
+    bonificacion.update(nombre = formulario["nombre"], valor = formulario["valor"], imagen = formulario["imagen"], descripcion = formulario["descripcion"])
+    return redirect("/adminBonos/")
+
 def registroadministrador(request):
     formulario = request.POST.dict()
     print(formulario)

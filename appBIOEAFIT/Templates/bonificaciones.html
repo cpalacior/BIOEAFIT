@@ -45,7 +45,7 @@
     }
 
     .cover-container {
-      max-width: 45.9em;
+      max-width: 55.9em;
     }
 
     .nav-masthead .nav-link {
@@ -168,46 +168,46 @@
 
     <main>
       <h1>¡Bonificaciones!</h1>
-      <br />
-
-      <div class="row">
-        {%for bonificacion in bono%}
-        {% if cantidad >= bonificacion.valor %}
-        <div class="col-6">
-          <div class="card" style="width: 18rem">
-            <img src="{{bonificacion.imagen}}" class="card-img-top" height="155px" />
-            <div class="card-body">
-              <h5 class="card-title">{{bonificacion.nombre}}</h5>
-              <p class="card-text">{{bonificacion.descripcion}}</p>
-              <form action="/redimir/{{name}}/{{bonificacion.valor}}" method="POST" onsubmit="return openmodal()">
-                {% csrf_token %}
-                <button id="submit" class="btn btn-primary">
-                  {{bonificacion.valor}} Puntos
-                </button>
-              </form>
+      <br/>
+      <center>
+        <div class="row">
+          {%for bonificacion in bono%}
+          {% if cantidad >= bonificacion.valor %}
+          <div class="col-6">
+            <div class="card" style="width: 25rem">
+              <img src="{{bonificacion.imagen}}" class="card-img-top" height="230px" />
+              <div class="card-body">
+                <h5 class="card-title">{{bonificacion.nombre}}</h5>
+                <p class="card-text">{{bonificacion.descripcion}}</p>
+                <form action="/redimir/{{name}}/{{bonificacion.valor}}" method="POST" onsubmit="return openmodal()">
+                  {% csrf_token %}
+                  <button id="submit" class="btn btn-primary">
+                    {{bonificacion.valor}} Puntos
+                  </button>
+                </form>
+              </div>
             </div>
+            <br /><br />
           </div>
-          <br /><br />
-        </div>
-        {% else %}
-        <div class="col-6">
-          <div class="card" style="width: 18rem">
-            <img src="{{bonificacion.imagen}}" class="card-img-top" height="155px" />
-            <div class="card-body">
-              <h5 class="card-title">{{bonificacion.nombre}}</h5>
-              <p class="card-text">{{bonificacion.descripcion}}</p>
+          {% else %}
+          <div class="col-6">
+            <div class="card" style="width: 25rem">
+              <img src="{{bonificacion.imagen}}" class="card-img-top" height="230px" />
+              <div class="card-body">
+                <h5 class="card-title">{{bonificacion.nombre}}</h5>
+                <p class="card-text">{{bonificacion.descripcion}}</p>
                 <button onclick="return openmodal1()" class="btn btn-primary">
                   {{bonificacion.valor}} Puntos
                 </button>
-              </form>
+                </form>
+              </div>
             </div>
+            <br /><br />
           </div>
-          <br /><br />
+          {% endif %}
+          {% endfor %}
         </div>
-        {% endif %}
-        {% endfor %}
-      </div>
-
+      </center>
 
     </main>
     <br /><br />
@@ -221,12 +221,12 @@
 
   <script>
     function openmodal() {
-        alert("Buena elección\nPodrás recoger tu bonificación en nuestras instalaciones. ¡Te esperamos!")
+      alert("Buena elección\nPodrás recoger tu bonificación en nuestras instalaciones. ¡Te esperamos!")
     }
     function openmodal1() {
-        alert("No tienes suficientes puntos\nRedime más materiales para poder canjear.")
+      alert("No tienes suficientes puntos\nRedime más materiales para poder canjear.")
     }
-</script>
+  </script>
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
     integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
     crossorigin="anonymous"></script>
