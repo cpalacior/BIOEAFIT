@@ -12,7 +12,7 @@
     href="https://scontent-bog1-1.xx.fbcdn.net/v/t39.30808-6/285523516_10160307612152272_6413037298758991867_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=ULo2XzY6TMMAX8WH1wY&tn=HoJLjBLSsSs9R71S&_nc_ht=scontent-bog1-1.xx&oh=00_AT-fGDRoo9Lqv3yIg-7S-DzbCywX3AyRNkbgJGApgXd_cw&oe=62F02FC3"
     type="image/png">
   <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/cover/">
-  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
   <style>
     .nav-scroller {
@@ -67,8 +67,15 @@
 </head>
 
 {% if mensaje == "error" %}
-<body class="d-flex h-100 text-center text-bg-dark" onload="return alerta()">
+
+<body class="d-flex h-100 text-center text-bg-dark">
+
   <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      - No existe ese usuario -
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
     <header class="mb-auto">
       <div>
         <h3 class="float-md-start">BIOEAFIT</h3>
@@ -81,6 +88,9 @@
     </header>
 
     <br><br>
+    <!--<ul class="alert alert-danger list-unstyled">
+      <li>- No existe ese usuario -</li>
+    </ul>-->
 
     <main class="px-3">
       <h1>¡Bienvenidos!</h1><br>
@@ -115,8 +125,15 @@
 
 </body>
 {% elif mensaje == "success" %}
-<body class="d-flex h-100 text-center text-bg-dark" onload="return alerta('{{cantidad}}')">
+
+<body class="d-flex h-100 text-center text-bg-dark">
   <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <div class="alert alert-primary alert-dismissible fade show" role="alert">
+      <p>Has obtenido: {{cantidad}}puntos.</p>
+      <p>Gracias por contribuir con el medio ambiente</p>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
     <header class="mb-auto">
       <div>
         <h3 class="float-md-start">BIOEAFIT</h3>
