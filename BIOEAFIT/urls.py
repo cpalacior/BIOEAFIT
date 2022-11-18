@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from appBIOEAFIT.views import adminBonos, administrador, editarBonos, eliminarBonos, eliminarStudent, inicio, inicio1, inicioUser, bonificaciones, redimir, puntos1, informacion, signin, registro, signout, editar, registroadministrador, informacion1
+from appBIOEAFIT.views import adminBonos, administrador, editarBonos, eliminarBonos, eliminarStudent, inicio, inicio1, inicioUser, bonificaciones, redimir, puntos1, informacion, signin,signinMalo , registro, signout, editar, registroadministrador, informacion1
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -29,6 +29,7 @@ urlpatterns = [
     path('informacion/', informacion),
     path('informacion1/<name>', informacion1),
     path('signin/', signin),
+    path('signin/<mensaje>', signinMalo),
     path('registro/', registro),
     path('administrador/', administrador),
     path('eliminarStudent/<name>', eliminarStudent),

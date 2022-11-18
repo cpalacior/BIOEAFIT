@@ -66,115 +66,27 @@
   </style>
 </head>
 
-{% if mensaje == "error" %}
-
 <body class="d-flex h-100 text-center text-bg-dark">
-
   <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-      - No existe ese usuario -
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-
-    <header class="mb-auto">
-      <div>
-        <h3 class="float-md-start">BIOEAFIT</h3>
-        <nav class="nav nav-masthead justify-content-center float-md-end">
-          <a class="nav-link fw-bold py-1 px-0" aria-current="page" href="/">Inicio</a>
-          <a class="nav-link fw-bold py-1 px-0" href="/informacion/">Información</a>
-          <a class="nav-link fw-bold py-1 px-0" href="/signin/">Ingresar</a>
-        </nav>
+    {% if mensaje == "error" %}
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        - No existe ese usuario -
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
-    </header>
-
-    <br><br>
-
-    <main class="px-3">
-      <h1>¡Bienvenidos!</h1><br>
-      <p class="lead">Somos un proyecto de la universidad EAFIT, que se encarga de brindarle una alternativa
-        distinta a los estudiantes para el manejo de residuos aprovechables, en este caso, botellas plásticas.
-        De esta forma, fomentamos la sensibilización ambiental por medio de un incentivo, que podrá redimirse
-        de acuerdo al puntaje asignado a cada estudiante proporcionado por la cantidad de botellas entregadas.
-        <br>Te invitamos a registrarte con tus datos universitarios y seguido de esto a leer el instructivo de
-        depósito en el apartado 'Información' para que puedas iniciar el proceso de forma exitosa. <br>¡Anímate!
-      </p>
-      <br>
-      <p class="lead">
-        <a href="/puntos1/" class="btn btn-lg btn-secondary fw-bold border-white bg-white">Iniciar Proceso</a>
-      </p>
-    </main>
-    <br><br>
-    <footer class="mt-auto text-white-50">
-      <p><a href="/inicio/" class="text-white">BIOEAFIT</a>, by <a href="https://www.eafit.edu.co/"
-          class="text-white">Universidad EAFIT</a>.</p>
-    </footer>
-  </div>
-
-
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-  <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
-
-</body>
-{% elif mensaje == "success" %}
-
-<body class="d-flex h-100 text-center text-bg-dark">
-  <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    {% elif mensaje == "success" %}
     <div class="alert alert-primary alert-dismissible fade show" role="alert">
-      <p>Has obtenido: {{cantidad}}puntos.</p>
+      <p>Has obtenido: {{cantidad}} puntos.</p>
       <p>Gracias por contribuir con el medio ambiente</p>
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
+    {% elif mensaje == "trampa" %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      <p>Has perdido: {{cantidad}} puntos.</p>
+      <p>No hagas mal uso de las botellas</p>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
 
-    <header class="mb-auto">
-      <div>
-        <h3 class="float-md-start">BIOEAFIT</h3>
-        <nav class="nav nav-masthead justify-content-center float-md-end">
-          <a class="nav-link fw-bold py-1 px-0" aria-current="page" href="/">Inicio</a>
-          <a class="nav-link fw-bold py-1 px-0" href="/informacion/">Información</a>
-          <a class="nav-link fw-bold py-1 px-0" href="/signin/">Ingresar</a>
-        </nav>
-      </div>
-    </header>
-
-    <br><br>
-
-    <main class="px-3">
-      <h1>¡Bienvenidos!</h1><br>
-      <p class="lead">Somos un proyecto de la universidad EAFIT, que se encarga de brindarle una alternativa
-        distinta a los estudiantes para el manejo de residuos aprovechables, en este caso, botellas plásticas.
-        De esta forma, fomentamos la sensibilización ambiental por medio de un incentivo, que podrá redimirse
-        de acuerdo al puntaje asignado a cada estudiante proporcionado por la cantidad de botellas entregadas.
-        <br>Te invitamos a registrarte con tus datos universitarios y seguido de esto a leer el instructivo de
-        depósito en el apartado 'Información' para que puedas iniciar el proceso de forma exitosa. <br>¡Anímate!
-      </p>
-      <br>
-      <p class="lead">
-        <a href="/puntos1/" class="btn btn-lg btn-secondary fw-bold border-white bg-white">Iniciar Proceso</a>
-      </p>
-    </main>
-    <br><br>
-    <footer class="mt-auto text-white-50">
-      <p><a href="/inicio/" class="text-white">BIOEAFIT</a>, by <a href="https://www.eafit.edu.co/"
-          class="text-white">Universidad EAFIT</a>.</p>
-    </footer>
-  </div>
-
-
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-  <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
-  <script>
-    function alerta(cantidad){
-      var c = cantidad;
-      alert("Has obtenido: " + c + " puntos.\nGracias por contribuir con el medio ambiente")
-    }
-  </script>
-
-</body>
-{% else %}
-<body class="d-flex h-100 text-center text-bg-dark">
-  <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
     <header class="mb-auto">
       <div>
         <h3 class="float-md-start">BIOEAFIT</h3>
@@ -215,5 +127,4 @@
   <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
 
 </body>
-{% endif %}
 </html>

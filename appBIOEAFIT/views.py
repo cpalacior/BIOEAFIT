@@ -1,13 +1,8 @@
-from pipes import Template
-from pydoc import doc
-from xml.dom.minidom import Document
 from django.shortcuts import render, redirect
 from .models import Usuario, Puntos_Usuarios, Bonificacion, TipoUsuario
 import serial  # Libreria para obtener datos del arduino
 import time   # Librerir para manejo del tiempo y la hora del sistema
-from datetime import datetime, timedelta
-from django.contrib import messages
-
+import cv2  # Libreria para el reconocimiento de la botella 
 
 puerto = 'COM7'
 
@@ -66,6 +61,8 @@ def puntos1(request):
             print("Dato 1")
             print("------------------------")
             # Llamo la función de lectura de datos on un argumento de la lista donde guardo los datos
+            claseObjeto = DetectarBotella()
+            time.sleep(1)
             leer_datos(list_in_floats)
             try:
                 idusuario = round(list_in_floats[0])
@@ -73,10 +70,7 @@ def puntos1(request):
                 usuario = Usuario.objects.get(identificacion=idusuario)
                 print(usuario)
                 print(list_in_floats[1])
-                print(list_in_floats[2])
-                print(list_in_floats[3])
-                puntos = (float(list_in_floats[2])+float(30 - list_in_floats[1])
-                )/(20+float(list_in_floats[3])) * 10
+                puntos = float(list_in_floats[1])
                 puntos = round(puntos)
                 puntos_usuario = Puntos_Usuarios.objects.filter(identificacion_id = idusuario)
                 
@@ -85,6 +79,10 @@ def puntos1(request):
                 cantidadp = cantidadp["cantidad"]
                 
                 suma = cantidadp + puntos
+                
+                if claseObjeto != 44 or claseObjeto != 11 or claseObjeto != 70 or claseObjeto != 86:
+                    restarPuntos(idusuario, suma)
+                    return redirect('/inicio1/trampa/%s' %(puntos))
                 puntos_usuario.update(cantidad=suma)
                 return redirect('/inicio1/success/%s' %(puntos))
             except:
@@ -107,6 +105,53 @@ def leer_datos(list_in_floats):
     arduino_data = 0
     arduino.close()
 
+def DetectarBotella():
+    cap = cv2.VideoCapture('http://192.168.1.101:8080/video')
+    time.sleep(1)
+    classNames= []
+    classFile = 'C:/Users/USER/Documents/Camilo/programacion/PI1/proyecto/BIOEAFIT/Detector/coco.names'
+    with open(classFile, 'rt') as f:
+        classNames = f.read().rstrip('\n').split('\n')
+    configPath = 'C:/Users/USER/Documents/Camilo/programacion/PI1/proyecto/BIOEAFIT/Detector/ssd_mobilenet_v3_large_coco_2020_01_14.pbtxt'
+    weightsPath = 'C:/Users/USER/Documents/Camilo/programacion/PI1/proyecto/BIOEAFIT/Detector/frozen_inference_graph.pb'
+    net= cv2.dnn_DetectionModel(weightsPath,configPath)
+    net.setInputSize(320,320)
+    net.setInputScale(1.0/127.5)
+    net.setInputMean((127.5,127.5,127.5))
+    net.setInputSwapRB(True)
+    contador = 0
+    for i in range(5): 
+        if i == 4:
+            return classIds
+    
+        seccess,img = cap.read()
+        classIds, confs, bbox = net.detect(img,confThreshold=0.5)
+        print(classIds,bbox)
+        if len(classIds) != 0:
+            classIds = classIds[0]
+            try:
+                if(classIds == 44):
+                    print("Botella aaaaaa")
+            except:
+                pass
+            for classId, confidence, box in zip(classIds.flatten(),confs.flatten(),bbox):
+                cv2.rectangle(img,box,color=(0,255,0),thickness=3)
+                cv2.putText(img,classNames[classId-1].upper(),(box[0]+10,box[1]+30),
+                            cv2.FONT_HERSHEY_COMPLEX,1,(0,255,0),2) 
+        cv2.imshow("Output",img)
+        cv2.waitKey(1)
+        contador = contador + 1
+    cv2.destroyAllWindows("Output") 
+
+def restarPuntos(identificacion, valor):
+    puntos_usuario = Puntos_Usuarios.objects.filter(identificacion_id = identificacion)
+    cantidadp = puntos_usuario.values()[0]
+    cantidadp = cantidadp["cantidad"]
+    if valor > cantidadp:
+        resta = 0
+    else:
+        resta = cantidadp - valor
+    puntos_usuario.update(cantidad=resta)
 
 def informacion(request):
     return render(request, 'informacion.html')
@@ -118,26 +163,42 @@ def signin(request):
     formulario = request.POST.dict()
     print(formulario)
     if request.method == 'POST':
-        user = Usuario.objects.filter(
+        try:
+            user = Usuario.objects.filter(
             correo=formulario["correo"]).filter(clave=formulario["clave"])
-        tipouser = user.values()[0]
-        nombreuser = tipouser["nombre"]
-        tipouser = tipouser["idtipousuario_id"]
-        if len(user.values()) != 0:
+            tipouser = user.values()[0]
+            nombreuser = tipouser["nombre"]
+            tipouser = tipouser["idtipousuario_id"]
             if tipouser == 2:
                 return redirect('/administrador/')
             return redirect('/inicioUser/%s' %(nombreuser))
-        else:
-            print("sUPer Malo")
-            messages.error(request, "sUPer Malo")
+        except:
+            return redirect('/signin/%s' % ("error"))
     return render(request, 'login.html')
+
+def signinMalo(request, mensaje):
+    formulario = request.POST.dict()
+    print(formulario)
+    if request.method == 'POST':
+        try:
+            user = Usuario.objects.filter(
+            correo=formulario["correo"]).filter(clave=formulario["clave"])
+            tipouser = user.values()[0]
+            nombreuser = tipouser["nombre"]
+            tipouser = tipouser["idtipousuario_id"]
+            if tipouser == 2:
+                return redirect('/administrador/')
+            return redirect('/inicioUser/%s' %(nombreuser))
+        except:
+            return redirect('/signin/%s' % ("error"))
+    return render(request, 'login.html', {"alerta":mensaje})
 
 
 def registro(request):
     formulario = request.POST.dict()
     print(formulario)
     T1 = TipoUsuario.objects.get(idtipousuario=request.POST['idtipousuario'])
-    usuario = Usuario(identificacion=formulario['identificacion'], nombre=formulario['nombre'], correo=formulario['correo'], clave=formulario['clave'], direccion=formulario['direccion'], edad=formulario['edad'], telefono=formulario['telefono'], idtipousuario=T1)
+    usuario = Usuario(identificacion=formulario['identificacion'], nombre=formulario['nombre'].strip(), correo=formulario['correo'].strip(), clave=formulario['clave'].strip(), direccion=formulario['direccion'], edad=formulario['edad'], telefono=formulario['telefono'], idtipousuario=T1)
     usuario.save()
     usuario1 = Usuario.objects.filter(
         identificacion=formulario['identificacion']).values()
@@ -157,7 +218,7 @@ def editar(request):
     print("editando")
     print(formulario)
     usuario = Usuario.objects.filter(identificacion = formulario["identificacion"])
-    usuario.update(identificacion = formulario["identificacion"], nombre = formulario["nombre"], correo = formulario["correo"], clave = formulario["clave"], direccion = formulario["direccion"], edad = formulario["edad"], telefono = formulario["telefono"])
+    usuario.update(identificacion = formulario["identificacion"], nombre = formulario["nombre"].strip(), correo = formulario["correo"].strip(), clave = formulario["clave"].strip(), direccion = formulario["direccion"], edad = formulario["edad"], telefono = formulario["telefono"])
     return redirect("/administrador/")
 
 def editarBonos(request):
@@ -172,7 +233,7 @@ def registroadministrador(request):
     formulario = request.POST.dict()
     print(formulario)
     T1 = TipoUsuario.objects.get(idtipousuario=request.POST['idtipousuario'])
-    usuario = Usuario(identificacion=formulario['identificacion'], nombre=formulario['nombre'], correo=formulario['correo'], clave=formulario['clave'], direccion=formulario['direccion'], edad=formulario['edad'], telefono=formulario['telefono'], idtipousuario=T1)
+    usuario = Usuario(identificacion=formulario['identificacion'], nombre=formulario['nombre'].strip(), correo=formulario['correo'].strip(), clave=formulario['clave'].strip(), direccion=formulario['direccion'], edad=formulario['edad'], telefono=formulario['telefono'], idtipousuario=T1)
     usuario.save()
     usuario1 = Usuario.objects.filter(
         identificacion=formulario['identificacion']).values()

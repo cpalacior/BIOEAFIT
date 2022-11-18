@@ -31,6 +31,12 @@
             </div>
         </header>
 
+        {% if alerta == "error" %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            - Usuario o contraseña incorrecto -
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endif %}
 
         <div class="form-modal">
             <div class="form-toggle">
