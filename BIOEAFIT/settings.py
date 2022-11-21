@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-)ihlgkj1cez@70ixya)f$gj094&azgz%778(m)cvahb_n^dy)j
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['34.132.74.72']
 
 
 # Application definition
@@ -55,7 +55,7 @@ ROOT_URLCONF = 'BIOEAFIT.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['C:/Users/USER/Documents/Camilo/programacion/PI1/proyecto/BIOEAFIT/appBIOEAFIT/Templates'],
+        'DIRS': ['C:/Users/Paulina López/Documents/Trabajos U/Cuarto Semestre/Proyecto Integrador I/BIOEAFIT/appBIOEAFIT/Templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -79,7 +79,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'BIOEAFIT',
         'USER': 'postgres',
-        'PASSWORD': '2242003179248650',
+        'PASSWORD': '1034916004',
         'HOST': '127.0.0.1',
         'DATABASE_PORT': '5432',
     }
